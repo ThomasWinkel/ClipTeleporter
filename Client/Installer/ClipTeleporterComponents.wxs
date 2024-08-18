@@ -1,0 +1,17 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+	<Fragment>
+		<ComponentGroup Id="ClipTeleporterComponents" Directory="INSTALLFOLDER">
+			<Component>
+				<File Source="..\ClipTeleporter\bin\$(Configuration)\ClipTeleporter.exe" />
+				<Shortcut Name="ClipTeleporter" Directory="DesktopFolder" Icon="icon.ico" Advertise="yes" WorkingDirectory="INSTALLFOLDER" />
+				<Shortcut Name="ClipTeleporter" Directory="ProgramMenuFolder" Icon="icon.ico" Advertise="yes" WorkingDirectory="INSTALLFOLDER" />
+			</Component>
+			<Component>
+				<File Source="..\ClipTeleporter\bin\$(Configuration)\ClipTeleporter.exe.config" />
+			</Component>
+			<Component>
+				<File Source="..\ClipTeleporter\bin\$(Configuration)\Newtonsoft.Json.dll" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>

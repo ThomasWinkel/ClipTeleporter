@@ -1,0 +1,23 @@
+[project]
+name = "clipteleporter_server"
+version = "0.1.0"
+authors = [
+  { name="Thomas Winkel", email="mail@thomas-winkel.de" },
+]
+description = "Share your clipboard over the internet."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Operating System :: OS Independent",
+    "Development Status :: 2 - Pre-Alpha"
+]
+dependencies = [
+    "flask",
+    "flask-sqlalchemy"
+]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"

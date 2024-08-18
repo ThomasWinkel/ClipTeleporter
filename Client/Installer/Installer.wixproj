@@ -1,0 +1,14 @@
+﻿<Project Sdk="WixToolset.Sdk/5.0.1">
+  <PropertyGroup>
+    <OutputName>ClipTeleporter</OutputName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="License.rtf" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="5.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClipTeleporter\ClipTeleporter.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,6 @@
+C:\Dev\ClipTeleporter\Client\Installer\bin\x64\Debug\en-US\ClipTeleporter.msi
+C:\Dev\ClipTeleporter\Client\Installer\bin\x64\Debug\en-US\ClipTeleporter.wixpdb
+C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\Installer.wixproj.CoreCompileInputs.cache
+C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\ClipTeleporter.msi
+C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\ClipTeleporter.wixpdb
+C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\Installer.wixproj.BindTracking-en-US.txt

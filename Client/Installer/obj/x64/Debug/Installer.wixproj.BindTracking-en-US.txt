@@ -1,0 +1,15 @@
+BuiltPdbOutput	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\ClipTeleporter.wixpdb
+BuiltTargetOutput	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\ClipTeleporter.msi
+Input	..\ClipTeleporter\bin\Debug\ClipTeleporter.exe
+Input	..\ClipTeleporter\bin\Debug\ClipTeleporter.exe.config
+Input	..\ClipTeleporter\bin\Debug\Newtonsoft.Json.dll
+Input	..\ClipTeleporter\Resources\Icon.ico
+Input	C:\Users\Thomas\.nuget\packages\wixtoolset.ui.wixext\5.0.1\wixext5\WixToolset.UI.wixext.dll
+Intermediate	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\#cab1.cab
+Intermediate	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\WixToolset.UI.wixext_JQWyXRtYP8GzAh9XdKAnv8JghNw\wix-ir\bannrbmp.bmp
+Intermediate	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\WixToolset.UI.wixext_JQWyXRtYP8GzAh9XdKAnv8JghNw\wix-ir\dlgbmp.bmp
+Intermediate	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\WixToolset.UI.wixext_JQWyXRtYP8GzAh9XdKAnv8JghNw\wix-ir\exclamic.ico
+Intermediate	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\WixToolset.UI.wixext_JQWyXRtYP8GzAh9XdKAnv8JghNw\wix-ir\info.ico
+Intermediate	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\WixToolset.UI.wixext_JQWyXRtYP8GzAh9XdKAnv8JghNw\wix-ir\new.ico
+Intermediate	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\WixToolset.UI.wixext_JQWyXRtYP8GzAh9XdKAnv8JghNw\wix-ir\uica.dll-1
+Intermediate	C:\Dev\ClipTeleporter\Client\Installer\obj\x64\Debug\en-US\WixToolset.UI.wixext_JQWyXRtYP8GzAh9XdKAnv8JghNw\wix-ir\up.ico
