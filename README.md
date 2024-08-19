@@ -1,53 +1,48 @@
 # ClipTeleporter
-
-Share your Clipboard over the internet.
+Share your clipboard over the internet.
 Not only text and images, but also complex content like Office objects.
 
 ![Screenshot](/Doc/Images/ClipTeleporter.png?raw=true "Screenshot")
 
-## Features
-* End-to-end encryption
+## Workflow
+The client application starts silent in the system tray.
+It can be used without the GUI only by hotkeys:
 
-## Todo
-* Settings
-  * Launch on Windows startup
-  * Server URL
-  * Define hotkeys
-* Export / import
-* Filter
+<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>v</kbd> will transfer the current clipboard content to the server.
 
-## Description
-### Send current clipboard content to server:
-[Strg] + [Alt] + [v] or "Send" button in client.
+In return an unique token (example: G3cAX8RULb#VK3GscXbY1) will be copied to your clipboard.
 
-A notify message will appear and the token will be copied to the clipboard.
-Also this clip will be added to the clip-list in the client.
+With this token, anyone can retrieve the content from the server to paste it somewhere. So you can send it by email or chat message to friends or colleagues.
 
-### Get current clipboard content to server:
-[Strg] + [Alt] + [c] or "Receive" button in client.
+First copy the token to your clipboard, then press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>c</kbd>. Now the content is in your clipbord.
 
-Before you can use the hotkey a valid token must be in the clipboard.
-The receive button will get the selected clip of the clip-list.
+All this can also be done with the GUI. There you will find all sent and recaived clips in a list.
 
-A notify message will appear and the content will be copied to the clipboard.
+## End-to-end encryption
+Clips will be compressed and encrypted before they are sent to the server.
+So, only you and anyone who has the token are able to see the content.
 
-### Description:
-You can add a description to each clip in the clip-list.
-
-### Clip-List:
-All sent or received clips will be stored to a list in the client.
-Duplicates (identic token) will not be stored.
-
-### Token:
 The token is split into two parts: Token#Password
 
 "Token" is to identify a clip in the database on the server.
 
 "Password" is to encrypt / decrypt the content. It will not be send to the server.
 
+## Todo
+* Settings
+  * Launch on Windows startup
+  * Server URL
+  * Define hotkeys
+* Store clips local to have them available offline
+* Export / import
+* Search & Filter to find clips quick
+* Special clips may require specific implementation...?
+* Your ideas...
 
-### Server:
-The server is written in Python / Flask.
+## Server:
+The server is written in Python / Flask / SQLAlchemy.
+
 It provides a database and an API for access.
 Also it shows a little info page:
+
 https://clipteleporter.visio-shapes.com/
