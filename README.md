@@ -33,7 +33,7 @@ The token is split into two parts: Token#Password
   * Launch on Windows startup
   * Server URL
   * Define hotkeys
-* :heavy_check_mark: Store clips local to have them available offline
+* Store clips local to have them available offline :heavy_check_mark:
 * Export / import
 * Search & Filter to find clips quick
 * Special clips may require specific implementation...?
