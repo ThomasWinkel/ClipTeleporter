@@ -34,8 +34,8 @@ The token is split into two parts: Token#Password
   * Server URL
   * Define hotkeys
 * Store clips local to have them available offline :heavy_check_mark:
-* Export / import
-* Search & Filter to find clips quick
+* Export / import :heavy_check_mark:
+* Search / filter / sort to find clips quick
 * Special clips may require specific implementation...?
 * Your ideas...
 

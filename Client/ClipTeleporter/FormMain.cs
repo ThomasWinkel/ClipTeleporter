@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -153,6 +155,83 @@ namespace ClipTeleporter
             {
                 btnCopyToken.Enabled = false;
                 btnReceive.Enabled = false;
+            }
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "json files (*.json)|*.json";
+            saveFileDialog.FilterIndex = 2;
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.FileName = "MyClips.json";
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter file = File.CreateText(saveFileDialog.FileName))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Serialize(file, ClipHandler.Clips);
+                }
+            }
+        }
+
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "json files (*.json)|*.json";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (StreamReader file = File.OpenText(openFileDialog.FileName))
+                    {
+                        JsonSerializer serializer = new JsonSerializer();
+                        BindingList<Clip> newClips = (BindingList<Clip>)serializer.Deserialize(file, typeof(BindingList<Clip>));
+                        foreach (Clip clip in newClips)
+                        {
+                            int index = ClipHandler.Clips.IndexOf(ClipHandler.Clips.Where(c => c.Token == clip.Token).FirstOrDefault());
+                            if (index >= 0)
+                            {
+                                ClipHandler.Clips[index] = clip;
+                            }
+                            else
+                            {
+                                ClipHandler.Clips.Add(clip);
+                            }
+                        }
+                        ClipHandler.SaveClips();
+                    }
+                }
+            }
+        }
+
+        private void tbToken_Enter(object sender, EventArgs e)
+        {
+            tbToken.ForeColor = SystemColors.WindowText;
+            tbToken.Text = "";
+        }
+
+        private void tbToken_Leave(object sender, EventArgs e)
+        {
+            tbToken.ForeColor = SystemColors.GrayText;
+            tbToken.Text = "enter token...";
+        }
+
+        private async void tbToken_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                string token = tbToken.Text;
+                dataGridView.Select();
+                
+                string message = await ClipHandler.GetClip(token);
+                notifyIcon.ShowBalloonTip(2000, "ClipTeleporter", message, ToolTipIcon.Info);
             }
         }
     }

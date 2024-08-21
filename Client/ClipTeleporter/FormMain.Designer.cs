@@ -34,7 +34,6 @@
             this.btnSend = new System.Windows.Forms.ToolStripButton();
             this.btnReceive = new System.Windows.Forms.ToolStripButton();
             this.btnCopyToken = new System.Windows.Forms.ToolStripButton();
-            this.btnSettings = new System.Windows.Forms.ToolStripButton();
             this.btnAbout = new System.Windows.Forms.ToolStripButton();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.dataGridView = new System.Windows.Forms.DataGridView();
@@ -43,6 +42,12 @@
             this.Token = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.btnExport = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnImport = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.tbToken = new System.Windows.Forms.ToolStripTextBox();
             this.toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -51,14 +56,15 @@
             // 
             this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnSend,
             this.btnReceive,
+            this.btnSend,
             this.btnCopyToken,
-            this.btnSettings,
-            this.btnAbout});
+            this.toolStripDropDownButton1,
+            this.btnAbout,
+            this.tbToken});
             this.toolStrip.Location = new System.Drawing.Point(0, 0);
             this.toolStrip.Name = "toolStrip";
-            this.toolStrip.Size = new System.Drawing.Size(800, 27);
+            this.toolStrip.Size = new System.Drawing.Size(800, 31);
             this.toolStrip.TabIndex = 0;
             this.toolStrip.Text = "toolStrip";
             // 
@@ -70,6 +76,7 @@
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(46, 24);
             this.btnSend.Text = "Send";
+            this.btnSend.ToolTipText = "Send clipboard content to server and create new clip";
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // btnReceive
@@ -79,8 +86,9 @@
             this.btnReceive.Image = ((System.Drawing.Image)(resources.GetObject("btnReceive.Image")));
             this.btnReceive.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnReceive.Name = "btnReceive";
-            this.btnReceive.Size = new System.Drawing.Size(64, 24);
+            this.btnReceive.Size = new System.Drawing.Size(64, 28);
             this.btnReceive.Text = "Receive";
+            this.btnReceive.ToolTipText = "Receive selected clip";
             this.btnReceive.Click += new System.EventHandler(this.btnReceive_Click);
             // 
             // btnCopyToken
@@ -92,17 +100,8 @@
             this.btnCopyToken.Name = "btnCopyToken";
             this.btnCopyToken.Size = new System.Drawing.Size(90, 24);
             this.btnCopyToken.Text = "Copy Token";
+            this.btnCopyToken.ToolTipText = "Copy token of selected clip";
             this.btnCopyToken.Click += new System.EventHandler(this.btnCopyToken_Click);
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.btnSettings.Image = ((System.Drawing.Image)(resources.GetObject("btnSettings.Image")));
-            this.btnSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(66, 24);
-            this.btnSettings.Text = "Settings";
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnAbout
             // 
@@ -134,14 +133,14 @@
             this.Token,
             this.Description});
             this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView.Location = new System.Drawing.Point(0, 27);
+            this.dataGridView.Location = new System.Drawing.Point(0, 31);
             this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowHeadersWidth = 51;
             this.dataGridView.RowTemplate.Height = 24;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView.Size = new System.Drawing.Size(800, 401);
+            this.dataGridView.Size = new System.Drawing.Size(800, 397);
             this.dataGridView.TabIndex = 2;
             this.dataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellValueChanged);
             this.dataGridView.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dataGridView_RowsRemoved);
@@ -191,6 +190,60 @@
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
             // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnExport,
+            this.btnImport,
+            this.toolStripSeparator1,
+            this.btnSettings});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(100, 24);
+            this.toolStripDropDownButton1.Text = "Application";
+            // 
+            // btnExport
+            // 
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(224, 26);
+            this.btnExport.Text = "Export clips";
+            this.btnExport.ToolTipText = "Export to file";
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
+            // btnImport
+            // 
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(224, 26);
+            this.btnImport.Text = "Import clips";
+            this.btnImport.ToolTipText = "Import from file";
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(221, 6);
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(224, 26);
+            this.btnSettings.Text = "Settings";
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // tbToken
+            // 
+            this.tbToken.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tbToken.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.tbToken.Name = "tbToken";
+            this.tbToken.Size = new System.Drawing.Size(100, 31);
+            this.tbToken.Text = "enter token...";
+            this.tbToken.ToolTipText = "Enter token and hit enter to get a new clip from server";
+            this.tbToken.Enter += new System.EventHandler(this.tbToken_Enter);
+            this.tbToken.Leave += new System.EventHandler(this.tbToken_Leave);
+            this.tbToken.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbToken_KeyDown);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -221,9 +274,14 @@
         private System.Windows.Forms.ToolStripButton btnReceive;
         private System.Windows.Forms.ToolStripButton btnCopyToken;
         private System.Windows.Forms.ToolStripButton btnSend;
-        private System.Windows.Forms.ToolStripButton btnSettings;
         private System.Windows.Forms.ToolStripButton btnAbout;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripMenuItem btnExport;
+        private System.Windows.Forms.ToolStripMenuItem btnImport;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem btnSettings;
+        private System.Windows.Forms.ToolStripTextBox tbToken;
     }
 }
 
