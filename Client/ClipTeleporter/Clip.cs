@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace ClipTeleporter
 {
@@ -8,5 +9,7 @@ namespace ClipTeleporter
         public string Direction { get; set; }
         public string Token { get; set; }
         public string Description { get; set; }
+        [Browsable(false)]
+        public string DataObject { get; set; }
     }
 }

@@ -10,7 +10,6 @@ namespace ClipTeleporter
     {
         KeyboardHook hook = new KeyboardHook();
         ClipHandler ClipHandler = new ClipHandler();
-        BindingList<Clip> Clips = new BindingList<Clip>();
         bool initializing = true;
 
         public FormMain()
@@ -38,13 +37,7 @@ namespace ClipTeleporter
             hook.RegisterHotKey(ClipTeleporter.ModifierKeys.Control | ClipTeleporter.ModifierKeys.Alt, Keys.C);
             hook.RegisterHotKey(ClipTeleporter.ModifierKeys.Control | ClipTeleporter.ModifierKeys.Alt, Keys.V);
 
-            string json = Properties.Settings.Default.AppSettings;
-            if (!string.IsNullOrEmpty(json))
-            {
-                Clips = JsonConvert.DeserializeObject<BindingList<Clip>>(json);
-            }
-
-            dataGridView.DataSource = Clips;
+            dataGridView.DataSource = ClipHandler.Clips;
 
             initializing = false;
         }
@@ -83,51 +76,30 @@ namespace ClipTeleporter
             {
                 string token_password = Clipboard.GetText();
                 string message = await ClipHandler.GetClip(token_password);
-                AddClip();
                 notifyIcon.ShowBalloonTip(2000, "ClipTeleporter", message, ToolTipIcon.Info);
             }
             else if (e.Key.ToString() == "V")
             {
                 string message = await ClipHandler.SendClip();
-                AddClip();
                 notifyIcon.ShowBalloonTip(2000, "ClipTeleporter", message, ToolTipIcon.Info);
             }
-        }
-
-        private void AddClip()
-        {
-            if (ClipHandler.Clip == null) return;
-            if (Clips.Where(c => c.Token == ClipHandler.Clip.Token).ToList().Count > 0) return;
-
-            Clips.Add(new Clip
-            {
-                Date = ClipHandler.Clip.Date,
-                Direction = ClipHandler.Clip.Direction,
-                Token = ClipHandler.Clip.Token
-            });
-
-            Properties.Settings.Default.AppSettings = JsonConvert.SerializeObject(Clips);
-            Properties.Settings.Default.Save();
         }
 
         private void dataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (initializing) return;
-            Properties.Settings.Default.AppSettings = JsonConvert.SerializeObject(Clips);
-            Properties.Settings.Default.Save();
+            ClipHandler.SaveClips();
         }
 
         private void dataGridView_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             if (initializing) return;
-            Properties.Settings.Default.AppSettings = JsonConvert.SerializeObject(Clips);
-            Properties.Settings.Default.Save();
+            ClipHandler.SaveClips();
         }
 
         private async void btnSend_Click(object sender, EventArgs e)
         {
             string message = await ClipHandler.SendClip();
-            AddClip();
             notifyIcon.ShowBalloonTip(2000, "ClipTeleporter", message, ToolTipIcon.Info);
         }
 
@@ -136,7 +108,6 @@ namespace ClipTeleporter
             if (dataGridView.SelectedCells.Count < 1) return;
             string token_password = dataGridView.SelectedCells[0].OwningRow.Cells["Token"].Value.ToString();
             string message = await ClipHandler.GetClip(token_password);
-            AddClip();
             notifyIcon.ShowBalloonTip(2000, "ClipTeleporter", message, ToolTipIcon.Info);
         }
 

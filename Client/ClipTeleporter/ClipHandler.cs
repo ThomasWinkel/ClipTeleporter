@@ -1,10 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +17,28 @@ namespace ClipTeleporter
 {
     internal class ClipHandler
     {
-        public Clip Clip { get; set; }
+        public BindingList<Clip> Clips = new BindingList<Clip>();
         private const string Server = "https://clipteleporter.visio-shapes.com/"; //"http://127.0.0.1:5000";
+
+        public ClipHandler()
+        {
+            string json = Properties.Settings.Default.AppSettings;
+            if (!string.IsNullOrEmpty(json))
+            {
+                Clips = JsonConvert.DeserializeObject<BindingList<Clip>>(json);
+            }
+        }
+
+        public void SaveClips()
+        {
+            Properties.Settings.Default.AppSettings = JsonConvert.SerializeObject(Clips);
+            Properties.Settings.Default.Save();
+        }
 
         public async Task<string> SendClip()
         {
             try
             {
-                Clip = null;
                 DataObject dataObject = (DataObject)Clipboard.GetDataObject();
                 string strDataObject = DataObjectToString(dataObject);
                 Dictionary<string, string> dict = new Dictionary<string, string>();
@@ -37,12 +54,13 @@ namespace ClipTeleporter
                 Dictionary<string, string> message = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
                 if (message["message"] == "Ok")
                 {
-                    Clip = new Clip
+                    Clips.Add(new Clip
                     {
                         Date = DateTime.Now,
                         Direction = "Sent",
-                        Token = token + "#" + password
-                    };
+                        Token = token + "#" + password,
+                        DataObject = dict["data_object"]
+                    });
                     Clipboard.SetText(token + "#" + password);
                     return "Successful sending clip to server.\nFind token in your clipboard: " + token + "#" + password;
                 }
@@ -59,27 +77,40 @@ namespace ClipTeleporter
 
         public async Task<string> GetClip(string token_password)
         {
-            Clip = null;
             if (string.IsNullOrEmpty(token_password)) return "Invalid token.";
             if (!token_password.Contains("#")) return "Invalid token.";
+
             string token = token_password.Split('#')[0];
             string password = token_password.Split('#')[1];
-            HttpClient httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(Server + "/api/get_clip/" + token);
-            string strDataObject = await response.Content.ReadAsStringAsync();
-            if (strDataObject == "")
+
+            if (Clips.Where(c => c.Token == token_password).ToList().Count < 1)
             {
-                return "Error receiving clip from server.";
+                HttpClient httpClient = new HttpClient();
+                var response = await httpClient.GetAsync(Server + "/api/get_clip/" + token);
+                string strDataObject = await response.Content.ReadAsStringAsync();
+                if (strDataObject == "")
+                {
+                    return "Error receiving clip from server.";
+                }
+                DataObject dataObject = StringToDataObject(StringCipher.Decrypt(strDataObject, password).Decompress());
+                Clipboard.SetDataObject(dataObject);
+                Clips.Add(new Clip
+                {
+                    Date = DateTime.Now,
+                    Direction = "Received",
+                    Token = token_password,
+                    DataObject = strDataObject
+                });
+                SaveClips();
+                return "Successful received clip from server.\nNow you can paste it into your application.";
             }
-            DataObject dataObject = StringToDataObject(StringCipher.Decrypt(strDataObject, password).Decompress());
-            Clip = new Clip
+            else
             {
-                Date = DateTime.Now,
-                Direction = "Received",
-                Token = token_password
-            };
-            Clipboard.SetDataObject(dataObject);
-            return "Successful received clip from server.\nNow you can paste it into your application.";
+                string strDataObject = Clips.Where(c => c.Token == token_password).ToList()[0].DataObject;
+                DataObject dataObject = StringToDataObject(StringCipher.Decrypt(strDataObject, password).Decompress());
+                Clipboard.SetDataObject(dataObject);
+                return "Successful received clip from list.\nNow you can paste it into your application.";
+            }
         }
 
         private string DataObjectToString(DataObject dataObject)
